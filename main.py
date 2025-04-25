@@ -1,2 +1,86 @@
+from inoutput import Juice  #inoutput 패키지의 juice를 가져옴..
+
+def defaultJuInput (juArr:list) :
+    juArr.append(Juice.juice("오아시스", 800, 10, 0, True))
+    juArr.append(Juice.juice("오아시스", 800, 10, 0, True))
+    juArr.append(Juice.juice("아쿠아 제로", 2000, 10, 0, True))
+    juArr.append(Juice.juice("레몬워터", 1800, 10, 0, True))
+    juArr.append(Juice.juice("레몬워터", 1800, 10, 0, True))
+    juArr.append(Juice.juice("옥수수 수염차", 1600, 10, 0, True))
+    juArr.append(Juice.juice("옥수수 수염차", 1600, 10, 0, True))
+    juArr.append(Juice.juice("황금보리", 1600, 10, 0, True))
+    juArr.append(Juice.juice("트레비", 1300, 10, 0, True))
+    juArr.append(Juice.juice("트레비", 1300, 10, 0, True))
+    juArr.append(Juice.juice("밀키스", 1100, 10, 0, True))
+    juArr.append(Juice.juice("펩시콜라", 1100, 10, 0, True))
+    juArr.append(Juice.juice("핫식스", 1300, 10, 0, True))
+    juArr.append(Juice.juice("칠성사이다", 1300, 10, 0, True))
+    juArr.append(Juice.juice("델몬트 망고", 1200, 10, 0, True))
+    juArr.append(Juice.juice("델몬트 망고", 1200, 10, 0, True))
+    juArr.append(Juice.juice("립톤", 1200, 10, 0, True))
+    juArr.append(Juice.juice("델몬트 사과에이드", 1100, 10, 0, True))
+    juArr.append(Juice.juice("델몬트 사과에이드", 1100, 10, 0, True))
+    juArr.append(Juice.juice("델몬트 포도에이드", 1100, 10, 0, True))
+    juArr.append(Juice.juice("가나초코", 900, 10, 0, True))
+    juArr.append(Juice.juice("레쓰비 마일드", 900, 10, 0, True))
+    juArr.append(Juice.juice("펩시 제로 콜라", 1100, 10, 0, True))
+    juArr.append(Juice.juice("핫6 제로", 1300, 10, 0, True))
+    juArr.append(Juice.juice("솔의눈", 1200, 10, 0, True))
+    juArr.append(Juice.juice("레쓰비 카페타임 라떼", 1200, 10, 0, True))
+    juArr.append(Juice.juice("게토레이", 1000, 10, 0, True))
+    juArr.append(Juice.juice("게토레이", 1000, 10, 0, True))
+    juArr.append(Juice.juice("코코리치 포도", 1000, 10, 0, True))
+    juArr.append(Juice.juice("잔치집 식혜", 1000, 10, 0, True))
+    return juArr
+
+def printJuice (juArr:list) :
+    for i in juArr:
+        print(i.juName)
+
+def runningJapangi() :    #자판기의 mainFunc() 
+    isRun:bool = True
+    cmdJpg:str = ""    #cmd 자판기.. 나중에는 버튼으로 바꿔야 하나? gui 먼저 연구해봐도 좋을듯 
+    while(isRun) :
+        print("자판기 프로그램 사용 설명서입니다.")  #임시 gui
+        print("--------------------------------------------------------------------------------------------------------")
+        print("1. 지불 방법 선택")
+        print("  - 현금 cash : 동전이나 지폐를 자판기에 투입해 물품을 구매합니다.")
+        print("  - 카드 card : 현금 투입 없이, 판매중인 물품중 최고 금액을 투입합니다. 이후 현금 사용은 불가능합니다.\n")
+        print("2. 지불")
+        print("  - 현금 : 100원을 투입하려면 100을 입력하세요. (100원, 500원, 1000원만 투입 가능)")
+        print("  - 카드 : 입력 없이 자동으로 잔고가 감소합니다.")
+        print("3. 구매")
+        print(" 원하는 상품의 버튼을 눌러주세요(임시:index)\n")
+        print("명령어 목록    -추후 무슨 버튼에 ficus시 출력되도록 수정해야함")
+        print("  - help 도움 : 프로그램 사용 설명서를 보여줍니다.")
+        print("  - list 목록 : 물품의 모든 목록을 보여줍니다.")
+        print("  - buyable 구매가능목록 : 현재 구매 가능한 물품의 목록을 보여줍니다.\n",
+              "                          다음 단계가 정해지지 않은 경우, 명령어를 입력하지 않았을 때에도 본 목록이 보여집니다.")
+        print("  - 100 500 1000 : 해당되는 금액을 자판기에 투입합니다.")
+        print("  - refund 환불 : 투입한 금액을 환불받습니다.")
+        print("  - exit 나가기 : 자판기 프로그램을 종료합니다.")
+        print("--------------------------------------------------------------------------------------------------------")
+        print("\n 계속하시려면 아무 키나 누르세요")
+        print("TODO:: 사용자가 넣은 금액 1000/500/100 단위로 표시되어야 함")
+        print("TODO:: 투입된 금액도 적어두어야 함")    
+        #입력받아서 대충 값에 따라 switch-case문 돌리기..func 분리 
+            
+
 if __name__ == "__main__":
-    print ("테스트입니다")
+    #변수 선언
+    savedMoney:int = 0     #자판기 내에 '결제되어' 저장된 돈, 있는 돈, 거스름돈으로 반환할 수 있는 돈
+    inputMoney:int = 0     #사용자가 input한 돈
+    input1000 :int = 0     #사용자가 1000원 몇 개 넣었는지
+    input500  :int = 0     #사용자가 500원 몇 개 넣었는지
+    input100  :int = 0     #사용자가 100원 몇 개 넣었는지지
+
+    print ("자판기 프로그램 사용 설명서입니다.")
+
+    juArr = []             #주스의 정보를 담을 배열, 
+    defaultJuInput(juArr)  #주스 list 초기화
+    printJuice(juArr)      #테스트용, 주스list 출력, 정상적 출력 확인(추후 삭제)
+
+    #돈을 인풋받기 위한..
+
+
+
