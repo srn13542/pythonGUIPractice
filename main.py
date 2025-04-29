@@ -1,6 +1,8 @@
 from inoutput import Juice  #inoutput 패키지의 juice를 가져옴..
+from tkinter import *
 
 def defaultJuInput (juArr:list) :
+    #list 초기화 function. 
     juArr.append(Juice.juice("오아시스", 800, 10, 0, True))
     juArr.append(Juice.juice("오아시스", 800, 10, 0, True))
     juArr.append(Juice.juice("아쿠아 제로", 2000, 10, 0, True))
@@ -64,7 +66,12 @@ def runningJapangi() :    #자판기의 mainFunc()
         print("TODO:: 사용자가 넣은 금액 1000/500/100 단위로 표시되어야 함")
         print("TODO:: 투입된 금액도 적어두어야 함")    
         #입력받아서 대충 값에 따라 switch-case문 돌리기..func 분리 
-            
+             # ++ python에는 switch 대신 발전된 match-case와 딕셔너리 사용 예시가 있다고. 
+             # https://okeybox.tistory.com/395
+
+
+def someBtnEvent() :
+    button['text'] = "버튼 누름"
 
 if __name__ == "__main__":
     #변수 선언
@@ -82,5 +89,110 @@ if __name__ == "__main__":
 
     #돈을 인풋받기 위한..
 
+    #그 전에 tkinter gui 화면부터 먼저 만들기로 함
+    #루트 화면(root Wondow) 생성/설정
+    tk = Tk()
+    tk.title("자판기")
+    tk.geometry("600x800+500+300")
+    tk.resizable(False,False)
+    
+    #frame1을 임시.. 버튼 넣는 곳으로 지정. 
+    mainFrame = Frame(tk, relief="solid", bd=10, width="600", height="10")
+    #텍스트 표시
+    label = Label(mainFrame, text="자판기 프로그램 임시 gui \n")
+    label.pack() #label 배치 실행
+    # btnFrame1 = Frame(mainFrame, width="600")  
+
+    #버튼들.. 임시로
+    # button1 = Button(btnFrame1, text="Button-1\n", height=10)
+    # button2 = Button(btnFrame1, text="Button-1\n", height=10)
+    # button3 = Button(btnFrame1, text="Button-1\n", height=10)
+    # button4 = Button(btnFrame1, text="Button-1\n", height=10)
+    # button5 = Button(btnFrame1, text="Button-1\n", height=10)
+    # button6 = Button(btnFrame1, text="Button-1\n", height=10)
+    # button7 = Button(btnFrame1, text="Button-1\n", height=10)
+    # button8 = Button(btnFrame1, text="Button-1\n", height=10)
+    # button9 = Button(btnFrame1, text="Button-1\n", height=10)
+    # button10 = Button(btnFrame1, text="Button-1\n", height=10)
+    # button1.pack(side="left", fill="y", expand="true")
+    # button2.pack(side="left", fill="y", expand="true")
+    # button3.pack(side="left", fill="y", expand="true")
+    # button4.pack(side="left", fill="y", expand="true")
+    # button5.pack(side="left", fill="y", expand="true")
+    # button6.pack(side="left", fill="y", expand="true")
+    # button7.pack(side="left", fill="y", expand="true")
+    # button8.pack(side="left", fill="y", expand="true")  
+    # button9.pack(side="left", fill="y", expand="true")
+    # button10.pack(side="left", fill="y", expand="true")  
+
+    # btnFrame2 = Frame(mainFrame, width="600")  
+
+    # button11 = Button(btnFrame2, text="Button-1\n", height=10)
+    # button12 = Button(btnFrame2, text="Button-1\n", height=10)
+    # button13 = Button(btnFrame2, text="Button-1\n", height=10)
+    # button14 = Button(btnFrame2, text="Button-1\n", height=10)
+    # button15 = Button(btnFrame2, text="Button-1\n", height=10)
+    # button16 = Button(btnFrame2, text="Button-1\n", height=10)
+    # button17 = Button(btnFrame2, text="Button-1\n", height=10)
+    # button18 = Button(btnFrame2, text="Button-1\n", height=10)
+    # button19 = Button(btnFrame2, text="Button-1\n", height=10)
+    # button20 = Button(btnFrame2, text="Button-1\n", height=10)
+    # button11.pack(side="left", fill="y", expand="true")
+    # button12.pack(side="left", fill="y", expand="true")
+    # button13.pack(side="left", fill="y", expand="true")
+    # button14.pack(side="left", fill="y", expand="true")
+    # button15.pack(side="left", fill="y", expand="true")
+    # button16.pack(side="left", fill="y", expand="true")
+    # button17.pack(side="left", fill="y", expand="true")
+    # button18.pack(side="left", fill="y", expand="true")  
+    # button19.pack(side="left", fill="y", expand="true")
+    # button20.pack(side="left", fill="y", expand="true") 
+
+    # btnFrame3 = Frame(mainFrame, width="600")  
+
+    # button21 = Button(btnFrame3, text="Button-1\n", height=10)
+    # button22 = Button(btnFrame3, text="Button-1\n", height=10)
+    # button23 = Button(btnFrame3, text="Button-1\n", height=10)
+    # button24 = Button(btnFrame3, text="Button-1\n", height=10)
+    # button25 = Button(btnFrame3, text="Button-1\n", height=10)
+    # button26 = Button(btnFrame3, text="Button-1\n", height=10)
+    # button27 = Button(btnFrame3, text="Button-1\n", height=10)
+    # button28 = Button(btnFrame3, text="Button-1\n", height=10)
+    # button29 = Button(btnFrame3, text="Button-1\n", height=10)
+    # button30 = Button(btnFrame3, text="Button-1\n", height=10)
+    # button21.pack(side="left", fill="y", expand="true")
+    # button22.pack(side="left", fill="y", expand="true")
+    # button23.pack(side="left", fill="y", expand="true")
+    # button24.pack(side="left", fill="y", expand="true")
+    # button25.pack(side="left", fill="y", expand="true")
+    # button26.pack(side="left", fill="y", expand="true")
+    # button27.pack(side="left", fill="y", expand="true")
+    # button28.pack(side="left", fill="y", expand="true")  
+    # button29.pack(side="left", fill="y", expand="true")
+    # button30.pack(side="left", fill="y", expand="true") 
+
+    # btnFrame1.pack(fill="x", expand=True)
+    # btnFrame2.pack(fill="x", expand=True)
+    # btnFrame3.pack(fill="x", expand=True)
+
+    juiceFrame:Frame = []
+    for i in range(0,3):
+        juFrame =  Frame(mainFrame, width="600")
+        for j in range(0, 10):
+            juButton = Button(juFrame, text=j, height=10)
+            juButton.pack(side="left", fill="both", expand="true")
+        juFrame.pack(fill="x", expand="true")
+    mainFrame.pack(fill="both")
+
+
+    frame3 = Frame(tk, width="600")
+    frame4 = Frame(tk, width="600", height="10")
+
+
+    button = Button(tk, text="버튼입니다. 누르면 함수가 실행됩니다.", command = someBtnEvent)
+    button2 = Button(tk, text="버튼2입니다.")
+    button.pack(side=LEFT, padx = 10, pady = 10) #side로 배치설정, padx로 좌우여백 설정, pady로 상하여백설정
+    button2.pack(side=LEFT, padx = 10, pady = 10)  #text 수정 희망 시 button['text']에 접근하여 수정인가봄
+    tk.mainloop()
 
 
