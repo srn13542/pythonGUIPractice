@@ -1,6 +1,6 @@
 from inoutput import Juice  #inoutput 패키지의 juice를 가져옴..
 from tkinter import *
-from tkinter import messagebox
+from tkinter import messagebox, simpledialog
 
 #변수 선언
 savedMoney:int = 0       #자판기 내에 '결제되어' 저장된 돈, 있는 돈, 거스름돈으로 반환할 수 있는 돈
@@ -54,26 +54,9 @@ def runningJapangi() :    #자판기의 mainFunc()
     cmdJpg:str = ""    #cmd 자판기.. 나중에는 버튼으로 바꿔야 하나? gui 먼저 연구해봐도 좋을듯 
     print("자판기 프로그램 사용 설명서입니다.")  #임시 cmd
     print("--------------------------------------------------------------------------------------------------------")
-    print("1. 지불 방법 선택")
-    print("  - 현금 cash : 동전이나 지폐를 자판기에 투입해 물품을 구매합니다.")
-    print("  - 카드 card : 현금 투입 없이, 판매중인 물품중 최고 금액을 투입합니다. 이후 현금 사용은 불가능합니다.\n")
-    print("2. 지불")
-    print("  - 현금 : 100원을 투입하려면 100을 입력하세요. (100원, 500원, 1000원만 투입 가능)")
-    print("  - 카드 : 입력 없이 자동으로 잔고가 감소합니다.")
-    print("3. 구매")
-    print(" 원하는 상품의 버튼을 눌러주세요(임시:index)\n")
-    print("명령어 목록    -추후 무슨 버튼에 ficus시 출력되도록 수정해야함")
-    print("  - help 도움 : 프로그램 사용 설명서를 보여줍니다.")
-    print("  - list 목록 : 물품의 모든 목록을 보여줍니다.")
-    print("  - buyable 구매가능목록 : 현재 구매 가능한 물품의 목록을 보여줍니다.\n",
-          "                          다음 단계가 정해지지 않은 경우, 명령어를 입력하지 않았을 때에도 본 목록이 보여집니다.")
-    print("  - 100 500 1000 : 해당되는 금액을 자판기에 투입합니다.")
-    print("  - refund 환불 : 투입한 금액을 환불받습니다.")
-    print("  - exit 나가기 : 자판기 프로그램을 종료합니다.")
     print("--------------------------------------------------------------------------------------------------------")
     print("\n 계속하시려면 아무 키나 누르세요")
-    print("TODO:: 사용자가 넣은 금액 1000/500/100 단위로 표시되어야 함")
-    print("TODO:: 투입된 금액도 적어두어야 함")    
+
 
 #거스름돈 반환 함수
 def changeMoney() :
@@ -117,7 +100,7 @@ def canBuyJuice() :
 #버튼 색상 업데이트
 def updateJuiceButtons():
     canBuyJuice()
-    for juice, button in juiceWidgets :
+    for juice, button, juImg in juiceWidgets :
         if juice.juCanBuy :
             button['bg'] = 'green'
         else :
@@ -162,6 +145,52 @@ def masterShow() :
         masterMode = True
         explLabel['text'] = "관리자 모드 진입"
 
+def refreshJuiceText():
+    juiceTextBox.config(state=NORMAL)
+    juiceTextBox.delete(1.0, END)
+    juiceTextBox.insert(END, printJuice(juArr))
+    juiceTextBox.config(state=DISABLED)
+
+# 예: index를 직접 입력받아 수정하는 방식
+def onEditJuice() :
+    index = simpledialog.askinteger("음료 선택", "수정할 음료 번호(index)를 입력하세요:", minvalue=0, maxvalue=len(juArr)-1)
+    if index is not None :
+        editJuiceInfo(index)
+
+def onPlusJuice() :
+    index = simpledialog.askinteger("음료 선택", "수정할 음료 번호(index)를 입력하세요:", minvalue=0, maxvalue=len(juArr)-1)
+    if index is not None :
+        juice = juArr[index]
+        newCount = simpledialog.askinteger("몇 개 추가할 것인지 말씀해주십시오.", f"현재 수량: {juice.juCount}", initialvalue = 0)
+        if newCount is not None :
+            juice.juCount += newCount
+
+def editJuiceInfo(index) :
+    juice = juArr[index]
+
+    #팝업으로 현재 값을 보여주고 새 값을 입력받는다.
+    newName  = simpledialog.askstring("이름 수정", f"현재 이름: {juice.juName}", initialvalue = juice.juName)
+    newPrice = simpledialog.askinteger("가격 수정", f"현재 가격: {juice.juPrice}", initialvalue = juice.juPrice)
+    newCount = simpledialog.askinteger("수량 수정", f"현재 수량: {juice.juCount}", initialvalue = juice.juCount)
+
+    if newName is not None :
+        juice.juName = newName
+        juice.juSellCount = 0  #메뉴가 바뀌며 판매량도 초기화
+    if newPrice is not None :
+        juice.juPrice = newPrice
+    if newCount is not None :
+        juice.juCount = newCount
+
+    explLabel['text'] = f"{index}번 음료가 수정되었습니다."
+
+        # GUI 반영
+    _, btn, lbl = juiceWidgets[index]
+    btn['text'] = f"{juice.juPrice}"
+    lbl['text'] = juice.juName
+
+    updateJuiceButtons()
+    refreshJuiceText()
+
 if __name__ == "__main__":
 
     #루트 화면(root Wondow) 생성/설정
@@ -190,7 +219,7 @@ if __name__ == "__main__":
             juButton = Button(juFrame2, text = juice.juPrice, command = lambda idx = index: attemptPurchase(idx))
             juImg = Label(juFrame2, text = juArr[(i*10)+(j+1)-1].juName, height = 8, width = 5)
             
-            juiceWidgets.append((juice, juButton))
+            juiceWidgets.append((juice, juButton, juImg))
 
             juImg.pack(side = TOP, fill = BOTH, expand = TRUE)
             juButton.pack(side = TOP, fill = BOTH, expand = TRUE)
@@ -224,7 +253,6 @@ if __name__ == "__main__":
 
     updateJuiceButtons()
 
-
     #--------------------Master Mode
     masterFrame = Frame(tk, relief = SOLID, bd = 2, width = 800, height = 500)
     #자판기 관리자 모드에서, 이미 있는 배열을 넘어서도록 음료수를 추가할 수는 없게 할 예정
@@ -232,13 +260,15 @@ if __name__ == "__main__":
     #음료수가 판매된 갯수, 등을... 알 수 있도록 한다...
     # showJuiceCountxt = printJuice(juArr)
     showSavedMoney = Label(masterFrame, text = f"자판기로 번 돈: {savedMoney}원")
-    inputJuice  = Button(masterFrame, text = "음료수 갯수 수정")
-    editJuice   = Button(masterFrame, text = "음료수 재고 충전")
+    inputJuice  = Button(masterFrame, text = "음료수 재고 추가", command = onPlusJuice)
+    editJuice   = Button(masterFrame, text = "음료수 재고 관리", command = onEditJuice)
     showJpgInfo = Button(masterFrame, text = "자판기 내 음료 정보 확인", command = lambda : showJuiceInfoDialog())
+    juiceTextBox = Text(masterFrame, height = 10, width = 60, state = DISABLED)
     showSavedMoney.pack(side = TOP, fill = X, padx = 5, pady = 5)
     inputJuice.pack(side = TOP, fill = X, padx = 5, pady = 5)
     editJuice.pack(side = TOP, fill = X, padx = 5, pady = 5)
     showJpgInfo.pack(side = TOP, fill = X, padx = 5, pady = 5)
+    juiceTextBox.pack(side = TOP, fill = X, padx = 5, pady = 5)
     # masterFrame.pack(fill = "both", side = TOP)
     tk.mainloop()
 
