@@ -162,8 +162,11 @@ def onPlusJuice() :
     if index is not None :
         juice = juArr[index]
         newCount = simpledialog.askinteger("몇 개 추가할 것인지 말씀해주십시오.", f"현재 수량: {juice.juCount}", initialvalue = 0)
-        if newCount is not None :
+        if newCount is not None and newCount - juice.juCount > -1 :
             juice.juCount += newCount
+        elif newCount is not None and newCount - juice.juCount <= -1 :
+            explLabel['text'] = "음료수의 갯수는 음수가 될 수 없습니다. 0으로 처리합니다."
+            juice.juCount = 0
 
 def editJuiceInfo(index) :
     juice = juArr[index]

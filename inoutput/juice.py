@@ -17,18 +17,18 @@ class juice:
         self.juSellCount = sellCount
         self.juCanBuy = canBuy 
     
-    def getjuName(self) :
-        return self.juName
-    def getjuPrice(self) :
-        return self.juPrice
-    def getjuCount(self) :
-        return self.juCount
-    def getjuSellCount(self) :
-        return self.juSellCount
-    def getjuCanBuy(self) :
-        return self.juCanBuy
+    # def getjuName(self) :
+    #     return self.juName
+    # def getjuPrice(self) :
+    #     return self.juPrice
+    # def getjuCount(self) :
+    #     return self.juCount
+    # def getjuSellCount(self) :
+    #     return self.juSellCount
+    # def getjuCanBuy(self) :
+    #     return self.juCanBuy
     
-    def setjuName(self, name) :
-        self.juName = name
-    def setjuPrice(self, price) :
-        self.juPrice = price
+    # def setjuName(self, name) :
+    #     self.juName = name
+    # def setjuPrice(self, price) :
+    #     self.juPrice = price
