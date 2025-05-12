@@ -267,16 +267,16 @@ if __name__ == "__main__":
     explLabel = Label(payFrame, text = "설명이 출력되는 창입니다.", bg = 'white', bd = 1, relief = SOLID, width = 10, height = 5)
     managerBtn = Button(payFrame, text = "관리자 모드 전환 버튼", width = 20, command = masterShow)
 
-    btn1000.grid(row = 0, column = 0, padx = 5, pady = 5)
-    btn500.grid(row = 0, column = 1, padx = 5, pady = 5)
-    btn100.grid(row = 0, column = 2, padx = 5, pady = 5)
-    btn50.grid(row = 0, column = 3, padx = 5, pady = 5)
+    btn1000.grid(row = 0, column = 0, padx = 5)
+    btn500.grid(row = 0, column = 1, padx = 5)
+    btn100.grid(row = 0, column = 2, padx = 5)
+    btn50.grid(row = 0, column = 3, padx = 5)
     cashBtn.grid(row = 0, column = 4, padx = 10) #side로 배치설정, padx로 좌우여백 설정, pady로 상하여백설정
     cardBtn.grid(row = 1, column = 4, padx = 10)  #text 수정 희망 시 button['text']에 접근하여 수정인가봄
-    moneyLabel.grid(row = 1, column = 0, columnspan = 4, padx = 5, pady = 5)
+    moneyLabel.grid(row = 1, column = 0, columnspan = 4, padx = 5)
     refundBtn.grid(row = 2, column = 4, padx = 10, pady = 5)
     explLabel.grid(row=5, column=0, columnspan=5, rowspan = 1, padx=5, pady=10, sticky='we')
-    managerBtn.grid(row = 6, column = 4, padx = 5, pady = 90)
+    managerBtn.grid(row = 6, column = 4, padx = 5, pady = 20)
     payFrame.pack(fill = BOTH, pady = 30, padx = 10, side = RIGHT)
     updateJuiceButtons()
 
