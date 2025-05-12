@@ -7,6 +7,10 @@ savedMoney:int = 0       #자판기 내에 '결제되어' 저장된 돈
 inputMoney:int = 0       #사용자가 input한 돈
 cardMode: bool = False   #카드 결제 가능 여부 플래그
 masterMode: bool = False #마스터 모드 관련 플래그
+listJuice : list = ["가나초코", "게토레이", "델몬트망고", "델몬트사과", "델몬트포도", "레몬워터", "레쓰비", "레쓰비라떼", "립톤",
+                    "밀키스", "솔의눈", "아쿠아제로","오아시스", "옥수수수염차", "잔치집식혜", "칠성사이다", "코코리치포도", "트레비",
+                    "펩시제로", "펩시콜라", "핫6제로", "핫식스", "황금보리"]
+
 
 #음료 목록 초기화
 def defaultJuInput (juArr:list) :
@@ -200,9 +204,13 @@ def editJuiceInfo(index) :
     explLabel['text'] = f"{index}번 음료가 수정되었습니다."
 
     # GUI 반영
-    _, btn, lbl = juiceWidgets[index]
+    _ , btn, lbl = juiceWidgets[index]
+    image_path = f"img/{newName}.png"
+    #img['text'] = PhotoImage(file=image_path)
     btn['text'] = f"{juice.juPrice}"
-    lbl['text'] = juice.juName
+    photo =PhotoImage(file=image_path)
+    lbl.image = photo
+    lbl.configure(image=photo)
 
     updateJuiceButtons()
     refreshJuiceText()
