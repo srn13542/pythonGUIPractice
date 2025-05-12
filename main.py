@@ -1,6 +1,6 @@
 from inoutput import Juice  #inoutput 패키지의 juice를 가져옴..
 from tkinter import *
-from tkinter import messagebox, simpledialog
+from tkinter import messagebox, simpledialog, PhotoImage
 
 #전역 변수 선언
 savedMoney:int = 0       #자판기 내에 '결제되어' 저장된 돈
@@ -12,7 +12,7 @@ masterMode: bool = False #마스터 모드 관련 플래그
 def defaultJuInput (juArr:list) :
     juArr.append(Juice.juice("오아시스", 800, 10, 0))
     juArr.append(Juice.juice("오아시스", 800, 10, 0))
-    juArr.append(Juice.juice("아쿠아 제로", 2000, 10, 0))
+    juArr.append(Juice.juice("아쿠아제로", 2000, 10, 0))
     juArr.append(Juice.juice("레몬워터", 1800, 10, 0))
     juArr.append(Juice.juice("레몬워터", 1800, 10, 0))
     juArr.append(Juice.juice("옥수수수염차", 1600, 10, 0))
@@ -24,22 +24,22 @@ def defaultJuInput (juArr:list) :
     juArr.append(Juice.juice("펩시콜라", 1100, 10, 0))
     juArr.append(Juice.juice("핫식스", 1300, 10, 0))
     juArr.append(Juice.juice("칠성사이다", 1300, 10, 0))
-    juArr.append(Juice.juice("델몬트 망고", 1200, 10, 0))
-    juArr.append(Juice.juice("델몬트 망고", 1200, 10, 0))
+    juArr.append(Juice.juice("델몬트망고", 1200, 10, 0))
+    juArr.append(Juice.juice("델몬트망고", 1200, 10, 0))
     juArr.append(Juice.juice("립톤", 1200, 10, 0))
-    juArr.append(Juice.juice("델몬트 사과", 1100, 10, 0))
-    juArr.append(Juice.juice("델몬트 사과", 1100, 10, 0))
-    juArr.append(Juice.juice("델몬트 포도", 1100, 10, 0))
+    juArr.append(Juice.juice("델몬트사과", 1100, 10, 0))
+    juArr.append(Juice.juice("델몬트사과", 1100, 10, 0))
+    juArr.append(Juice.juice("델몬트포도", 1100, 10, 0))
     juArr.append(Juice.juice("가나초코", 900, 10, 0))
     juArr.append(Juice.juice("레쓰비", 900, 10, 0))
-    juArr.append(Juice.juice("펩시 제로", 1100, 10, 0))
-    juArr.append(Juice.juice("핫6 제로", 1300, 10, 0))
+    juArr.append(Juice.juice("펩시제로", 1100, 10, 0))
+    juArr.append(Juice.juice("핫6제로", 1300, 10, 0))
     juArr.append(Juice.juice("솔의눈", 1200, 10, 0))
-    juArr.append(Juice.juice("레쓰비 라떼", 1200, 10, 0))
+    juArr.append(Juice.juice("레쓰비라떼", 1200, 10, 0))
     juArr.append(Juice.juice("게토레이", 1000, 10, 0))
     juArr.append(Juice.juice("게토레이", 1000, 10, 0))
-    juArr.append(Juice.juice("코코리치 포도", 1000, 10, 0))
-    juArr.append(Juice.juice("잔치집 식혜", 1000, 10, 0))
+    juArr.append(Juice.juice("코코리치포도", 1000, 10, 0))
+    juArr.append(Juice.juice("잔치집식혜", 1000, 10, 0))
     return juArr
 
 
@@ -216,8 +216,8 @@ if __name__ == "__main__":
     #루트 화면(root Wondow) 생성/설정
     tk = Tk()
     tk.title("자판기")
-    tk.geometry("800x1000+500+300")
-    tk.resizable(False,False)
+    tk.geometry("1000x800+500+300")
+    tk.resizable(True,True)
 
 
     juArr = []             #주스의 정보를 담을 배열, 
@@ -232,18 +232,23 @@ if __name__ == "__main__":
 
 
     for i in range(0,3):
-        juFrame =  Frame(mainFrame, width = 800, padx = 10, pady = 10)
+        juFrame =  Frame(mainFrame, width = 1000, padx = 10, pady = 10)
         for j in range(0, 10):
             index = (i * 10) + j
             juice = juArr[index]
 
             juFrame2 = Frame(juFrame, relief = SOLID, bd = 2, height = 10, width = 5)
             juButton = Button(juFrame2, text = juice.juPrice, command = lambda idx = index: attemptPurchase(idx))
-            juImg = Label(juFrame2, text = juArr[(i*10)+(j+1)-1].juName, height = 8, width = 5)
-            
+            # juImg = Label(juFrame2, text = juArr[(i*10)+(j+1)-1].juName, height = 8, width=5)
+            image_path = f"img/{juArr[index].juName}.png"
+            juImgpath = PhotoImage(file=image_path)
+            juImg = Button(juFrame2, image=juImgpath, height=100, width=80)
+            #객체 별로로 생성하게 하기 위한 코드
+            juImg.image = juImgpath
+
             juiceWidgets.append((juice, juButton, juImg))
 
-            juImg.pack(side = TOP, fill = BOTH, expand = TRUE)
+            juImg.pack(side=TOP, fill= BOTH, expand =TRUE)
             juButton.pack(side = TOP, fill = BOTH, expand = TRUE)
             juFrame2.pack(side = LEFT, fill = BOTH, expand = TRUE)
         juFrame.pack(fill = "x", expand = "true")
@@ -270,14 +275,14 @@ if __name__ == "__main__":
     cardBtn.grid(row = 1, column = 4, padx = 10)  #text 수정 희망 시 button['text']에 접근하여 수정인가봄
     moneyLabel.grid(row = 1, column = 0, columnspan = 4, padx = 5, pady = 5)
     refundBtn.grid(row = 2, column = 4, padx = 10, pady = 5)
-    explLabel.grid(row=5, column=0, columnspan=5, rowspan = 3, padx=5, pady=10, sticky='we')
-    managerBtn.grid(row = 8, column = 4, padx = 5, pady = 90, sticky = 'se')
+    explLabel.grid(row=5, column=0, columnspan=5, rowspan = 1, padx=5, pady=10, sticky='we')
+    managerBtn.grid(row = 6, column = 4, padx = 5, pady = 90)
     payFrame.pack(fill = BOTH, pady = 30, padx = 10, side = RIGHT)
     updateJuiceButtons()
 
 
     #--------------------Master Mode
-    masterFrame = Frame(tk, relief = SOLID, bd = 2, width = 800, height = 500)
+    masterFrame = Frame(tk, relief = SOLID, bd = 2, width = 800, height = 300)
     showSavedMoney = Label(masterFrame, text = f"자판기로 번 돈: {savedMoney}원")
     inputJuice  = Button(masterFrame, text = "음료수 재고 추가", command = onPlusJuice)
     editJuice   = Button(masterFrame, text = "음료수 재고 관리", command = onEditJuice)
