@@ -1,6 +1,8 @@
-from inoutput import Juice  #inoutput 패키지의 juice를 가져옴..
+import tkinter
+
+from inoutput import Juice #inoutput 패키지의 juice를 가져옴..
 from tkinter import *
-from tkinter import messagebox, simpledialog, PhotoImage
+from tkinter import messagebox, simpledialog, PhotoImage, ttk
 
 #전역 변수 선언
 savedMoney:int = 0       #자판기 내에 '결제되어' 저장된 돈
@@ -46,7 +48,9 @@ def defaultJuInput (juArr:list) :
     juArr.append(Juice.juice("잔치집식혜", 1000, 10, 0))
     return juArr
 
-
+available_juice_names = ["가나초코", "게토레이", "델몬트망고", "델몬트사과", "델몬트포도", "레몬워터", "레쓰비", "레쓰비라떼", "립톤",
+                    "밀키스", "솔의눈", "아쿠아제로","오아시스", "옥수수수염차", "잔치집식혜", "칠성사이다", "코코리치포도", "트레비",
+                    "펩시제로", "펩시콜라", "핫6제로", "핫식스", "황금보리"]
 #------------------------------------------ 일반적인 자판기 func
 
 
@@ -93,7 +97,7 @@ def canBuyJuice() :
         if cardMode :
             juice.juCanBuy = True
         else :
-            juice.juCanBuy = inputMoney >= juice.juPrice
+            juice.juCanBuy = inputMoney >= juice.juPrice and (juice.juCount!=0)
 
 
 #버튼 색상 업데이트
@@ -183,13 +187,70 @@ def onPlusJuice() :
             explLabel['text'] = "음료수의 갯수는 음수가 될 수 없습니다. 0으로 처리합니다."
             juice.juCount = 0
 
+def get_new_juice_name_via_listbox(current_name, available_names):
+    selected_value = None
+
+    dialog_window = tkinter.Toplevel()
+    dialog_window.title("음료 이름 선택 (리스트박스)")
+
+    # 현재 이름 표시 레이블
+    current_name_label = ttk.Label(dialog_window, text=f"현재 이름: {current_name}")
+    current_name_label.pack(pady=10)
+
+    # 리스트박스를 담을 프레임
+    listbox_frame = tkinter.Frame(dialog_window)
+    listbox_frame.pack(pady=5)
+
+    # 리스트박스 생성
+    listbox = tkinter.Listbox(listbox_frame, height=5, selectmode=tkinter.SINGLE)
+    listbox.pack(side=tkinter.LEFT, fill=tkinter.BOTH, expand=True)
+
+    # 리스트박스에 항목 추가
+    for item in available_names:
+        listbox.insert(tkinter.END, item)
+
+    # 현재 주스 이름을 자동으로 선택
+    try:
+        current_index = available_names.index(current_name)
+        listbox.selection_set(current_index)
+        listbox.see(current_index) # 선택된 항목으로 스크롤
+    except ValueError:
+        pass # 현재 이름이 목록에 없으면 아무것도 안 함
+
+    # 스크롤바 추가
+    scrollbar = ttk.Scrollbar(listbox_frame, orient="vertical", command=listbox.yview)
+    scrollbar.pack(side=tkinter.RIGHT, fill="y")
+    listbox.config(yscrollcommand=scrollbar.set)
+
+    # --- 선택 완료 버튼을 눌렀을 때 실행될 함수 ---
+    def on_select():
+        nonlocal selected_value
+        selected_indices = listbox.curselection()
+        if selected_indices:
+            index = selected_indices[0]
+            selected_value = listbox.get(index) # 선택된 값 저장
+        dialog_window.destroy() # <-- 이 부분이 현재 팝업 창만 닫습니다!
+
+    # "선택 완료" 버튼
+    select_button = ttk.Button(dialog_window, text="선택 완료", command=on_select)
+    select_button.pack(pady=10)
+
+    # 창 X 버튼을 눌렀을 때도 selected_value가 None이 되도록 처리
+    # dialog_window.protocol("WM_DELETE_WINDOW", dialog_window.destroy) # 이미 on_select에서 처리하므로 중복될 수 있음.
+
+    # 이 창이 닫힐 때까지 대기 (모달 창처럼 동작)
+    dialog_window.grab_set()    # 이 창에 포커스를 고정 (뒤의 메인 창 조작 불가)
+    dialog_window.wait_window() # 이 창이 닫힐 때까지 대기
+
+    return selected_value
+
 
 #주스의 정보를 수정한다. 
 def editJuiceInfo(index) :
     juice = juArr[index]
 
     #팝업으로 현재 값을 보여주고 새 값을 입력받는다.
-    newName  = simpledialog.askstring("이름 수정", f"현재 이름: {juice.juName}", initialvalue = juice.juName)
+    newName  = get_new_juice_name_via_listbox(juice.juName, available_juice_names)
     newPrice = simpledialog.askinteger("가격 수정", f"현재 가격: {juice.juPrice}", initialvalue = juice.juPrice)
     newCount = simpledialog.askinteger("수량 수정", f"현재 수량: {juice.juCount}", initialvalue = juice.juCount)
 
